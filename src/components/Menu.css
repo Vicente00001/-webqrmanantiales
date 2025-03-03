@@ -1,0 +1,99 @@
+/* Contenedor principal del menú */
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 140vh;
+    padding: 20px;
+    background: linear-gradient(to bottom, #FFD700, #D32F2F); /* Degradado amarillo-rojo */
+  }
+  
+  /* Barra superior con logo y botón */
+  .menu-header {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 40px);
+  }
+  
+  /* Logo del colegio */
+  .menu-logo {
+    width: 120px;
+    height: auto;
+  }
+  
+  /* Botón de cerrar sesión */
+  .logout-button {
+    background-color: #D32F2F; /* Rojo */
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .logout-button:hover {
+    background-color: #B71C1C; /* Rojo más oscuro */
+  }
+  
+  /* Contenido del menú */
+  .menu-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 80px;
+  }
+  
+  /* Título del menú */
+  .menu-title {
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra en el texto */
+    margin-bottom: 20px;
+  }
+  
+  /* Botones del menú */
+  .menu-button {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    margin: 10px 0;
+    background-color: white;
+    color: #D32F2F; /* Rojo */
+    font-size: 28px;
+    font-weight: bold;
+    border: 2px solid #FFD700; /* Borde amarillo */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .menu-button:hover {
+    background-color: #FFD700; /* Amarillo */
+    color: black;
+  }
+  
+  /* Responsividad */
+  @media (max-width: 500px) {
+    .menu-title {
+      font-size: 20px;
+    }
+    .menu-button {
+      font-size: 16px;
+    }
+    .logout-button {
+      font-size: 12px;
+      padding: 8px 12px;
+    }
+  }
+  

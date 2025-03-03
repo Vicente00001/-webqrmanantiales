@@ -1,0 +1,108 @@
+/* Contenedor principal del login */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    background: linear-gradient(to bottom, #FFD700, #D32F2F); /* Degradado amarillo-rojo */
+}
+  
+/* Caja del formulario */
+.login-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 90%;
+    max-width: 400px; /* Se adapta a dispositivos pequeños y grandes */
+}
+  
+/* Logo del colegio */
+.login-logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+/* Título principal con mayor grosor y sombra */
+.login-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #D32F2F; /* Rojo */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Sombra para mayor impacto */
+}
+  
+/* Subtítulo */
+.login-subtitle {
+    font-size: 18px;
+    color: #000; /* Negro */
+    margin-bottom: 20px;
+}
+  
+/* Contenedor del formulario */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos */
+    width: 100%;
+}
+  
+/* Campos de entrada alineados y con el mismo tamaño que el botón */
+.login-input {
+    width: 100%; /* Ocupará todo el ancho de la caja */
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #FFD700; /* Amarillo */
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* Evita que padding y border alteren el tamaño */
+    text-align: center; /* Centra el texto dentro del input */
+}
+
+/* Botón de inicio de sesión ajustado al tamaño de los inputs */
+.login-button {
+    width: 100%; /* Ocupará todo el ancho disponible dentro de la caja */
+    padding: 12px;
+    background-color: #D32F2F; /* Rojo */
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    box-sizing: border-box; /* Evita que el padding y el border modifiquen el tamaño */
+    margin-top: 10px; /* Espaciado superior */
+}
+  
+.login-button:hover {
+    background-color: #B71C1C; /* Rojo más oscuro */
+}
+
+/* Mensaje de error */
+.login-error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+  
+/* Responsividad */
+@media (max-width: 500px) {
+    .login-box {
+        padding: 1.5rem;
+    }
+    .login-title {
+        font-size: 20px;
+    }
+    .login-subtitle {
+        font-size: 16px;
+    }
+    .login-input {
+        font-size: 14px;
+    }
+    .login-button {
+        font-size: 16px;
+    }
+}
