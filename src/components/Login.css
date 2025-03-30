@@ -106,3 +106,81 @@ form {
         font-size: 16px;
     }
 }
+
+.forgot-password-link {
+    color: #D32F2F;
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 10px;
+    display: block;
+    text-align: center;
+  }
+  
+  .forgot-password-link:hover {
+    text-decoration: underline;
+  }
+  
+  .login-success {
+    color: green;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .password-input-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .show-password-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #D32F2F;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .show-password-button:hover {
+    text-decoration: underline;
+  }
+
+  select.login-input {
+    appearance: none; /* Elimina el estilo predeterminado del select */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  select.login-input:focus {
+    border-color: #D32F2F;
+    box-shadow: 0 0 8px rgba(211, 47, 47, 0.3);
+  }
+
+  .password-input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .show-password-button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #D32F2F;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .show-password-button:hover {
+    text-decoration: underline;
+  }

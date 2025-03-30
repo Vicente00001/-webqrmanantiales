@@ -1,144 +1,356 @@
-/* Contenedor principal */
+/* Estilos base */
 .asistencia-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin: auto;
-  }
-  
-  /* Encabezado con logo y título */
-  .asistencia-header {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .asistencia-logo {
-    width: 80px;
-    height: auto;
-  }
-  
-  .asistencia-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #D32F2F;
-  }
-  
-  /* Botones en fila horizontal */
-  .asistencia-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .asistencia-button,
-  .back-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .asistencia-button {
-    background-color: #D32F2F;
-    color: white;
-  }
-  
-  .asistencia-button:hover {
-    background-color: #B71C1C;
-  }
-  
-  .back-button {
-    background-color: gray;
-    color: white;
-  }
-  
-  .back-button:hover {
-    background-color: darkgray;
-  }
-  
-  /* Lista de asistencia */
-  .asistencia-list {
-    width: 100%;
-    overflow-x: auto;
-    margin-top: 20px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
-  
-  th {
-    background-color: #D32F2F;
-    color: white;
-  }
-  
-  tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  tbody tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  /* Botones en fila horizontal */
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.asistencia-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.asistencia-logo {
+  width: 50px;
+  height: auto;
+}
+
+.asistencia-title {
+  font-size: 1.3rem;
+  color: #D32F2F;
+  margin: 0;
+  text-align: center;
+}
+
+/* Botones principales */
 .asistencia-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.asistencia-button, .back-button {
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.asistencia-button {
+  background-color: #D32F2F;
+  color: white;
+}
+
+.back-button {
+  background-color: gray;
+  color: white;
+}
+
+/* Tabla responsive */
+.table-wrapper {
+  width: 100%;
+  padding: 0 5px;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  min-width: 600px;
+}
+
+.responsive-table th, 
+.responsive-table td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.responsive-table th {
+  background-color: #D32F2F;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+/* Modales */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.modal {
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  z-index: 1001;
+}
+
+.modal h2 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #D32F2F;
+}
+
+/* Estilos para el buscador */
+.modificar-selection {
+  position: static;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.modificar-selection input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #D32F2F;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Resultados desplegables */
+.dropdown-results {
+  position: absolute;
+  width: calc(100% - 40px);
+  left: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin-top: 5px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+  z-index: 1002;
+}
+
+.dropdown-results li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.dropdown-results li:hover {
+  background: #f5f5f5;
+}
+
+/* Inputs del modal */
+.modal-input, .modal-select {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.modal-button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.modal-button.confirm {
+  background-color: #D32F2F;
+  color: white;
+}
+
+.modal-button.cancel {
+  background-color: #ccc;
+  color: #333;
+}
+
+/* Estudiante seleccionado */
+.selected-student-info {
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border-left: 4px solid #D32F2F;
+}
+
+/* Estilos para móviles */
+@media (max-width: 768px) {
+  .asistencia-title {
+    font-size: 1.1rem;
   }
   
-  /* Estilos para la lista de estudiantes */
-  tbody tr {
-    cursor: pointer;
+  .asistencia-button, .back-button {
+    padding: 6px 10px;
+    font-size: 0.75rem;
   }
   
-  tbody tr:hover {
-    background-color: #f1f1f1;
+  .responsive-table {
+    min-width: 100%;
   }
   
-  /* Modal */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .responsive-table th {
+    display: none;
   }
   
+  .responsive-table td {
+    display: block;
+    padding: 6px 8px;
+    text-align: right;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .responsive-table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .responsive-table tr {
+    margin-bottom: 10px;
+    display: block;
+    border-bottom: 2px solid #ddd;
+  }
+
   .modal {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    width: 300px;
+    padding: 15px;
+    width: 95%;
+  }
+
+  .dropdown-results {
+    width: calc(100% - 30px);
+    left: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-input, .modal-select {
+    font-size: 0.8rem;
   }
   
-  .modal input, .modal select {
-    width: 100%;
-    margin: 10px 0;
-    padding: 5px;
+  .modal-button {
+    font-size: 0.8rem;
+    padding: 6px;
   }
+}
+
+/* Agrega esto al final de tu AsistenciaHoy.css */
+
+.delete-button {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.delete-button:hover {
+  background-color: #cc0000;
+}
+
+/* Ajustes para la tabla con más columnas */
+@media (max-width: 768px) {
+  .responsive-table td[data-label="Acciones"] {
+    text-align: center;
+  }
+  
+  .responsive-table td[data-label="Acciones"]::before {
+    display: none;
+  }
+}
+
+
+/* Estilos para el buscador compacto */
+.search-container {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto 15px auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #D32F2F;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+/* Ajustes para la tabla más larga */
+.table-wrapper.extended {
+  max-height: 65vh; /* 65% del viewport height */
+  overflow-y: auto;
+}
+
+.table-wrapper.extended .table-container {
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Opcional: barra de desplazamiento personalizada */
+.table-wrapper.extended::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-wrapper.extended::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.table-wrapper.extended::-webkit-scrollbar-thumb {
+  background: #D32F2F;
+  border-radius: 10px;
+}
+
+.table-wrapper.extended::-webkit-scrollbar-thumb:hover {
+  background: #b71c1c;
+}

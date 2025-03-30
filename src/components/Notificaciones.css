@@ -1,0 +1,81 @@
+/* Contenedor principal */
+.notificaciones-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Caja con sombra */
+.notificaciones-box {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Logo más pequeño */
+.notificaciones-logo {
+    width: 60px;
+    height: auto;
+}
+
+/* Aumento del tamaño de la fuente */
+h1, label, select, input, textarea {
+    font-size: 18px;
+}
+
+/* Más espacio entre elementos */
+.medida-container,
+.frecuencia-container,
+.mensaje-container,
+.switch-container {
+    margin-bottom: 20px;
+}
+
+/* Estilo para la casilla bloqueada */
+.bloqueado {
+    background: #f0f0f0;
+    color: #555;
+    font-weight: bold;
+    cursor: not-allowed;
+}
+
+/* Textarea más grande */
+.mensaje-textarea {
+    width: 100%;
+    padding: 15px;
+    height: 120px;
+    border: 2px solid #D32F2F;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+}
+
+/* Botón de guardar */
+.guardar-button {
+    background-color: #D32F2F;
+    color: white;
+    padding: 14px;
+    font-size: 18px;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.back-button {
+    background-color: gray;
+    color: white;
+    padding: 14px;
+    font-size: 18px;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 10px;
+}

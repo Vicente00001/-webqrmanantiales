@@ -2,237 +2,252 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+import QRCode from "qrcode";
 import "./AsistenciaHoy.css";
 import logo from "../assets/LOGOMANANTIALES.png";
+import { generarQRIndividual } from "../scripts/generarQRIndividual";
 
 const AsistenciaHoy = () => {
   const navigate = useNavigate();
+  const [atrasados, setAtrasados] = useState([]);
   const [estudiantes, setEstudiantes] = useState([]);
-  const [filteredEstudiantes, setFilteredEstudiantes] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showQRModal, setShowQRModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStudent, setSelectedStudent] = useState(null);
-  const [newEstado, setNewEstado] = useState("");
-  const [newHora, setNewHora] = useState("");
-  const [sortBy, setSortBy] = useState("default");
-  const [sortOrder, setSortOrder] = useState("asc");
-  const [contador, setContador] = useState({ presentes: 0, atrasados: 0, ausentes: 0 });
+  const [justificacion, setJustificacion] = useState("");
 
-  // Obtener estudiantes desde Firestore
+  const obtenerAtrasados = async () => {
+    const today = new Date().toISOString().split("T")[0];
+
+    const snapshotAtrasados = await getDocs(collection(db, "asistencias"));
+    let atrasadosData = snapshotAtrasados.docs
+      .map((doc) => ({ id: doc.id, ...doc.data() }))
+      .filter((registro) => registro.estado === "Atrasado" && registro.fecha === today);
+
+    const snapshotEstudiantes = await getDocs(collection(db, "estudiantes"));
+    const estudiantesMap = new Map(
+      snapshotEstudiantes.docs.map((doc) => [
+        doc.id,
+        {
+          nombre: doc.data().nombre,
+          apellido_paterno: doc.data().apellido_paterno,
+          apellido_materno: doc.data().apellido_materno,
+          curso: doc.data().curso || "Sin curso",
+        },
+      ])
+    );
+
+    atrasadosData = atrasadosData.map((registro) => ({
+      ...registro,
+      nombreCompleto: `${estudiantesMap.get(registro.estudiante_id)?.nombre || "Desconocido"} ${estudiantesMap.get(registro.estudiante_id)?.apellido_paterno || ""} ${estudiantesMap.get(registro.estudiante_id)?.apellido_materno || ""}`,
+      nombre: estudiantesMap.get(registro.estudiante_id)?.nombre || "Desconocido",
+      apellido_paterno: estudiantesMap.get(registro.estudiante_id)?.apellido_paterno || "",
+      apellido_materno: estudiantesMap.get(registro.estudiante_id)?.apellido_materno || "",
+      curso: estudiantesMap.get(registro.estudiante_id)?.curso || "Sin curso",
+    }));
+
+    setAtrasados(atrasadosData);
+  };
+
+  const obtenerEstudiantes = async () => {
+    const snapshot = await getDocs(collection(db, "estudiantes"));
+    const estudiantesData = snapshot.docs.map((doc) => ({
+      rut: doc.id.replace(/\./g, "").replace(/-/g, ""),
+      nombre: doc.data().nombre,
+      apellido_paterno: doc.data().apellido_paterno,
+      apellido_materno: doc.data().apellido_materno,
+      curso: doc.data().curso || "Sin curso",
+    }));
+    setEstudiantes(estudiantesData);
+  };
+
   useEffect(() => {
-    const fetchEstudiantes = async () => {
-      const snapshot = await getDocs(collection(db, "estudiantes"));
-      const estudiantesData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        nombre: `${doc.data().nombre} ${doc.data().apellido_paterno} ${doc.data().apellido_materno}`,
-        curso: doc.data().curso || "Sin curso",
-        estado: "Ausente",
-        horaIngreso: "0",
-      }));
-      setEstudiantes(estudiantesData);
-      setFilteredEstudiantes(estudiantesData);
-      actualizarContador(estudiantesData);
-    };
-    fetchEstudiantes();
+    obtenerAtrasados();
+    obtenerEstudiantes();
   }, []);
 
-  // Clasificación de asistencia
-const actualizarAsistencia = () => {
-    const updatedEstudiantes = estudiantes.map((estudiante) => {
-        // Generar un número aleatorio de minutos dentro del rango de 6:30 AM a 10:00 AM
-        const horaAleatoria = Math.floor(Math.random() * (210)) + 390; // Minutos desde 6:30 AM (390) hasta 10:00 AM (600)
-        const horas = Math.floor(horaAleatoria / 60);
-        const minutos = horaAleatoria % 60;
-
-        // Formatear horas y minutos con dos dígitos (ejemplo: 07:05)
-        const horaFormateada = `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}`;
-
-        // Determinar estado basado en la hora de ingreso
-        let estado = "Presente";
-        if (horaFormateada > "08:00") estado = "Atrasado"; // Después de las 8:00 AM
-        if (horaFormateada < "06:30") estado = "Ausente"; // Antes de las 6:30 AM, considerarlo ausente
-
-        return {
-            ...estudiante,
-            estado: Math.random() > 0.5 ? estado : "Ausente",
-            horaIngreso: Math.random() > 0.5 ? horaFormateada : "0",
-        };
-    });
-
-    setEstudiantes(updatedEstudiantes);
-    setFilteredEstudiantes(updatedEstudiantes);
-    actualizarContador(updatedEstudiantes);
-};
-
-// Actualizar el contador de estudiantes según el estado
-const actualizarContador = (lista) => {
-    const contadores = {
-        presentes: lista.filter((e) => e.estado === "Presente").length,
-        atrasados: lista.filter((e) => e.estado === "Atrasado").length,
-        ausentes: lista.filter((e) => e.estado === "Ausente").length,
-    };
-    setContador(contadores);
-};
-
-  // Filtrar estudiantes por búsqueda
-  useEffect(() => {
-    const filtered = estudiantes.filter((estudiante) =>
-      estudiante.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      estudiante.id.includes(searchQuery)
-    );
-    setFilteredEstudiantes(filtered);
-  }, [searchQuery, estudiantes]);
-
-  // Abrir el modal para seleccionar un estudiante y modificar su estado
-  const handleOpenModal = (estudiante) => {
-    setSelectedStudent(estudiante);
-    setNewEstado(estudiante.estado);
-    setNewHora(estudiante.horaIngreso !== "0" ? estudiante.horaIngreso : "08:00");
-    setShowModal(true);
-  };
-
-  // Guardar cambios en Firestore
-  const handleSaveChanges = async () => {
+  const justificarAtraso = async () => {
     if (!selectedStudent) return;
 
-    const estudianteRef = doc(db, "estudiantes", selectedStudent.id);
-    await updateDoc(estudianteRef, {
-      estado: newEstado,
-      horaIngreso: newEstado === "Ausente" ? "0" : newHora,
+    const usuarioActual = "correo_del_usuario_autenticado@ejemplo.com";
+
+    const docRef = doc(db, "asistencias", selectedStudent.id);
+    await updateDoc(docRef, {
+      estado: "Justificado",
+      justificacion,
+      responsable_justificacion: usuarioActual,
     });
 
-    const updatedEstudiantes = estudiantes.map((est) =>
-      est.id === selectedStudent.id
-        ? { ...est, estado: newEstado, horaIngreso: newEstado === "Ausente" ? "0" : newHora }
-        : est
-    );
-
-    setEstudiantes(updatedEstudiantes);
-    setFilteredEstudiantes(updatedEstudiantes);
-    actualizarContador(updatedEstudiantes);
     setShowModal(false);
+    obtenerAtrasados();
   };
 
-  // Mostrar mensaje emergente para "Generar QR de Alumno"
-  const handleGenerarQR = () => {
-    alert("🔜 Función de generación de QR aún no disponible.");
+  const generarNombreArchivo = (estudiante) => {
+    const nombreLimpio = `${estudiante.nombre}_${estudiante.apellido_paterno}_${estudiante.apellido_materno}`
+      .replace(/\s+/g, '_')
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .toUpperCase();
+    
+    const cursoLimpio = (estudiante.curso || "SINCURSO")
+      .replace(/\s+/g, '')
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .toUpperCase();
+
+    return `${estudiante.rut}_${nombreLimpio}_${cursoLimpio}`;
+  };
+
+  const generarTextoQR = (estudiante) => {
+    return `${estudiante.nombre} ${estudiante.apellido_paterno} ${estudiante.apellido_materno} ${estudiante.curso}`;
+  };
+
+  const generarQR = async () => {
+    if (!selectedStudent) return;
+    
+    await generarQRIndividual(
+      selectedStudent.rut,
+      generarNombreArchivo(selectedStudent),
+      generarTextoQR(selectedStudent),
+      {
+        nombre: selectedStudent.nombre,
+        apellidoPaterno: selectedStudent.apellido_paterno,
+        apellidoMaterno: selectedStudent.apellido_materno,
+        curso: selectedStudent.curso
+      }
+    );
+    
+    setShowQRModal(false);
   };
 
   return (
     <div className="asistencia-container">
       <div className="asistencia-header">
         <img src={logo} alt="Logo Colegio Manantiales" className="asistencia-logo" />
-        <h1 className="asistencia-title">Asistencia de Hoy</h1>
+        <h1 className="asistencia-title">Atrasos de Hoy</h1>
       </div>
 
       <div className="asistencia-buttons">
-        <button className="asistencia-button" onClick={actualizarAsistencia}>Actualizar Asistencia</button>
-        <button className="asistencia-button" onClick={() => setShowModal(true)}>Marcar Atraso Justificado</button>
-        <button className="asistencia-button" onClick={handleGenerarQR}>Generar QR de Alumno</button>
-        <button className="back-button" onClick={() => navigate("/menu")}>Volver al Menú</button>
+        <button className="asistencia-button" onClick={obtenerAtrasados}>Actualizar</button>
+        <button className="asistencia-button" onClick={() => setShowModal(true)}>Justificar</button>
+        <button className="asistencia-button" onClick={() => setShowQRModal(true)}>Generar QR</button>
+        <button className="back-button" onClick={() => navigate("/menu")}>Menú</button>
       </div>
 
-      <div className="contador-asistencia">
-        <p>✅ {contador.presentes} Presentes | ⏳ {contador.atrasados} Atrasados | ❌ {contador.ausentes} Ausentes</p>
-      </div>
-
-      <div className="search-bar">
-        <input type="text" placeholder="Buscar por nombre o RUT..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-      </div>
-
-      <div className="asistencia-list">
-        <table>
-          <thead>
-            <tr>
-              <th>RUT</th>
-              <th>Nombre</th>
-              <th>Curso</th>
-              <th>Estado</th>
-              <th>Hora de Ingreso</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredEstudiantes.map((estudiante) => (
-              <tr key={estudiante.id} onClick={() => handleOpenModal(estudiante)}>
-                <td>{estudiante.id}</td>
-                <td>{estudiante.nombre}</td>
-                <td>{estudiante.curso}</td>
-                <td>{estudiante.estado}</td>
-                <td>{estudiante.horaIngreso}</td>
+      <div className="table-wrapper">
+        <div className="table-container">
+          <table className="responsive-table">
+            <thead>
+              <tr>
+                <th>RUT</th>
+                <th>Nombre</th>
+                <th>Curso</th>
+                <th>Estado</th>
+                <th>Hora</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {atrasados.map((estudiante) => (
+                <tr key={estudiante.id} onClick={() => setSelectedStudent(estudiante)}>
+                  <td data-label="RUT">{estudiante.estudiante_id}</td>
+                  <td data-label="Nombre">{estudiante.nombreCompleto}</td>
+                  <td data-label="Curso">{estudiante.curso}</td>
+                  <td data-label="Estado">{estudiante.estado}</td>
+                  <td data-label="Hora">{estudiante.hora}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {showModal && (
-  <div className="modal-overlay">
-    <div className="modal">
-      <h2>Modificar Estado</h2>
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Justificar Atraso</h2>
+            <select
+              onChange={(e) => {
+                const estudianteSeleccionado = atrasados.find(
+                  (est) => est.id === e.target.value
+                );
+                setSelectedStudent(estudianteSeleccionado);
+              }}
+            >
+              <option value="">Selecciona estudiante...</option>
+              {atrasados.map((est) => (
+                <option key={est.id} value={est.id}>
+                  {est.nombreCompleto} - {est.estudiante_id}
+                </option>
+              ))}
+            </select>
 
-      {/* Campo de selección con búsqueda integrada */}
-      <label>Buscar Estudiante:</label>
-      <select
-        value={selectedStudent ? selectedStudent.id : ""}
-        onChange={(e) => {
-          const estudianteSeleccionado = estudiantes.find((est) => est.id === e.target.value);
-          setSelectedStudent(estudianteSeleccionado);
-          setNewEstado(estudianteSeleccionado.estado);
-          setNewHora(estudianteSeleccionado.horaIngreso !== "0" ? estudianteSeleccionado.horaIngreso : "08:00");
-        }}
-      >
-        <option value="">Seleccione un estudiante...</option>
-        {estudiantes
-          .filter((est) =>
-            est.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            est.id.includes(searchQuery)
-          )
-          .map((est) => (
-            <option key={est.id} value={est.id}>
-              {est.id} - {est.nombre} ({est.curso})
-            </option>
-          ))}
-      </select>
-
-      {/* Campo de búsqueda */}
-      <input
-        type="text"
-        placeholder="Buscar por nombre o RUT..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-
-      {selectedStudent && (
-        <>
-          <p><strong>Nombre:</strong> {selectedStudent.nombre}</p>
-          <p><strong>RUT:</strong> {selectedStudent.id}</p>
-          <p><strong>Curso:</strong> {selectedStudent.curso}</p>
-
-          <label>Estado:</label>
-          <select value={newEstado} onChange={(e) => setNewEstado(e.target.value)}>
-            <option value="Presente">Presente</option>
-            <option value="Atrasado">Atrasado</option>
-            <option value="Ausente">Ausente</option>
-          </select>
-
-          <label>Hora de Ingreso:</label>
-          <input
-            type="time"
-            value={newHora}
-            onChange={(e) => setNewHora(e.target.value)}
-            disabled={newEstado === "Ausente"}
-          />
-
-          <button onClick={handleSaveChanges}>Guardar</button>
-        </>
+            <input
+              type="text"
+              placeholder="Justificación"
+              value={justificacion}
+              onChange={(e) => setJustificacion(e.target.value)}
+              className="modal-input"
+            />
+            <div className="modal-actions">
+              <button className="modal-button confirm" onClick={justificarAtraso}>Guardar</button>
+              <button className="modal-button cancel" onClick={() => setShowModal(false)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
       )}
 
-      <button onClick={() => setShowModal(false)}>Cancelar</button>
+{showQRModal && (
+  <div className="modal-overlay">
+    <div className="modal">
+      <h2>Generar QR</h2>
+      
+      <div className="modificar-selection">
+        <input
+          type="text"
+          placeholder="Buscar por nombre o RUT..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        {searchQuery && (
+          <ul className="dropdown-results">
+            {estudiantes
+              .filter((est) => {
+                if (!est || !est.nombre) return false;
+                const searchLower = searchQuery.toLowerCase();
+                return (
+                  est.nombre.toLowerCase().includes(searchLower) ||
+                  (est.apellido_paterno && est.apellido_paterno.toLowerCase().includes(searchLower)) ||
+                  (est.apellido_materno && est.apellido_materno.toLowerCase().includes(searchLower)) ||
+                  est.rut.includes(searchQuery)
+                );
+              })
+              .map((est) => (
+                <li 
+                  key={est.rut} 
+                  onClick={() => {
+                    setSelectedStudent(est);
+                    setSearchQuery(`${est.rut} - ${est.nombre} ${est.apellido_paterno} ${est.apellido_materno}`);
+                  }}
+                >
+                  {est.rut} - {est.nombre} {est.apellido_paterno} {est.apellido_materno} ({est.curso})
+                </li>
+              ))}
+          </ul>
+        )}
+      </div>
+
+      {selectedStudent && (
+        <div className="selected-student-info">
+          <p>Seleccionado: {selectedStudent.nombre} {selectedStudent.apellido_paterno} {selectedStudent.apellido_materno}</p>
+        </div>
+      )}
+
+      <div className="modal-actions">
+        <button className="modal-button confirm" onClick={generarQR}>Descargar</button>
+        <button className="modal-button cancel" onClick={() => setShowQRModal(false)}>Cancelar</button>
+      </div>
     </div>
   </div>
 )}
-
-
     </div>
   );
 };

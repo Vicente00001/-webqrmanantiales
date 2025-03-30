@@ -1,0 +1,383 @@
+/* Contenedor principal - Responsivo */
+.modificar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 15px;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  /* Recuadro con sombra - Ajustado para móviles */
+  .modificar-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Encabezado con logo y título */
+  .modificar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .modificar-logo {
+    width: 70px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .modificar-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #D32F2F;
+    margin: 5px 0;
+  }
+  
+  /* Casilla de búsqueda */
+  .modificar-selection {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .modificar-selection input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #D32F2F;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  /* Resultados desplegables */
+  .dropdown-results {
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+  }
+  
+  .dropdown-results li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+  }
+  
+  .dropdown-results li:hover {
+    background: #f5f5f5;
+  }
+  
+  /* Datos del estudiante seleccionado */
+  .modificar-datos {
+    text-align: left;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .modificar-datos h3 {
+    color: #D32F2F;
+    font-size: 1.2rem;
+    margin: 15px 0 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+  }
+  
+  .modificar-datos p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+  }
+  
+  /* Tabla de atrasos - Responsiva */
+  .atrasos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    overflow-x: auto;
+    display: block;
+  }
+  
+  .atrasos-table th, 
+  .atrasos-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .atrasos-table th {
+    background-color: #D32F2F;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+  }
+  
+  .atrasos-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .atrasos-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .estado-justificado {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .estado-atrasado {
+    color: orange;
+    font-weight: bold;
+  }
+  
+  /* Botones de acción en tabla */
+  .edit-button, 
+  .delete-button {
+    padding: 6px 10px;
+    margin: 2px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  
+  .edit-button {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .edit-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .delete-button {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  /* Modal simple y responsivo */
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+  
+  .modal-simple {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .modal-simple h3 {
+    margin-top: 0;
+    color: #D32F2F;
+    font-size: 1.2rem;
+  }
+  
+  .modal-input-group {
+    margin: 15px 0;
+  }
+  
+  .modal-input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 0.95rem;
+  }
+  
+  .modal-input-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-height: 100px;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+  
+  .modal-button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .modal-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  
+  .modal-btn-primary {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .modal-btn-secondary {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  /* Botones principales */
+  .modificar-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .modificar-button,
+  .back-button {
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+  }
+  
+  .modificar-button {
+    background-color: #D32F2F;
+    color: white;
+  }
+  
+  .back-button {
+    background-color: #757575;
+    color: white;
+  }
+  
+  /* Media Queries para ajustes específicos */
+  @media (max-width: 480px) {
+    .modificar-box {
+      padding: 15px;
+    }
+    
+    .modificar-title {
+      font-size: 1.2rem;
+    }
+    
+    .atrasos-table {
+      font-size: 0.8rem;
+    }
+    
+    .atrasos-table th, 
+    .atrasos-table td {
+      padding: 6px 4px;
+    }
+    
+    .edit-button, 
+    .delete-button {
+      padding: 4px 8px;
+      font-size: 0.7rem;
+    }
+    
+    .modal-simple {
+      padding: 15px;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .modificar-container {
+      padding: 20px;
+    }
+    
+    .modificar-title {
+      font-size: 1.5rem;
+    }
+    
+    .atrasos-table {
+      font-size: 0.9rem;
+    }
+  }
+
+  .estadisticas-container h3 {
+    color: #D32F2F;
+    margin-top: 0;
+    font-size: 1.1rem;
+  }
+  
+  .estadisticas-container p {
+    margin: 5px 0;
+  }
+  
+  /* Botón de PDF */
+  .pdf-button {
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+    background-color: #D32F2F;
+    color: white;
+    margin-bottom: 10px;
+  }
+  
+  .pdf-button:hover {
+    background-color: #B71C1C;
+  }
+  
+  .pdf-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  /* Botón de observación */
+  .observacion-button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .observacion-button:hover {
+    background-color: #0b7dda;
+  }

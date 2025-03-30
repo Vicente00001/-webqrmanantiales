@@ -5,19 +5,33 @@ service cloud.firestore {
     // 🔹 Permitir que cualquier usuario autenticado lea los estudiantes (pero no escriba)
     match /estudiantes/{document=**} {
       allow read: if request.auth != null;
-      allow write: if request.auth != null && request.auth.token.admin == true;
+      allow write: if request.auth != null;
+      allow update: if request.auth != null;
     }
 
     // 🔹 Permitir que un usuario autenticado solo pueda leer su propio documento en "usuarios"
     match /usuarios/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow write: if request.auth != null && request.auth.token.admin == true;
+      allow read: if request.auth != null;
+      allow write: if request.auth != null;
+    }
+
+    // 🔹 Permitir lectura a cualquier usuario autenticado en "asistencias"
+    match /asistencias/{document=**} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null; // 🔹 Mantiene permisos de escritura para usuarios autenticados
     }
 
     // 🔹 Permitir lectura y escritura solo a administradores en cualquier otra colección
     match /{document=**} {
       allow read, write: if request.auth != null && request.auth.token.admin == true;
     }
+    
+    match /medidas_disciplinarias/{document} {
+      allow read, write: if request.auth != null;
+    }
+    
+    match /mail/{document} {
+  allow create: if request.auth != null || request.auth == null;
+}
   }
 }
-

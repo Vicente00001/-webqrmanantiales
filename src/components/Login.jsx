@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { auth, db } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
-import logo from "../assets/logo colegio manantiales.jpg"; 
+import logo from "../assets/logo colegio manantiales.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -38,7 +39,12 @@ const Login = () => {
         setError("No se encontró información del usuario en Firestore.");
       }
     } catch (error) {
-      setError("Error al iniciar sesión: " + error.message);
+      // Mensaje de error personalizado para credenciales inválidas
+      if (error.code === "auth/invalid-credential") {
+        setError("Credenciales inválidas, intente nuevamente.");
+      } else {
+        setError("Error al iniciar sesión: " + error.message);
+      }
     }
   };
 
@@ -58,16 +64,29 @@ const Login = () => {
             required
             className="login-input"
           />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="login-input"
-          />
+          <div className="password-input-container">
+            <input
+              type={showPassword ? "text" : "password"} // Cambia el tipo de input
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="login-input"
+            />
+            <button
+              type="button"
+              className="show-password-button"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Ocultar" : "Mostrar"}
+            </button>
+          </div>
           <button type="submit" className="login-button">Ingresar</button>
         </form>
+        {/* Enlace para "Olvidé mi contraseña" */}
+        <Link to="/forgot-password" className="forgot-password-link">
+          ¿Olvidaste tu contraseña?
+        </Link>
       </div>
     </div>
   );
