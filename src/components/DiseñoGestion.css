@@ -36,7 +36,7 @@
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  max-width: 800px; /* Nuevo: Limita el ancho máximo */
+  max-width: 800px;
 }
 
 .add-button, .back-button {
@@ -47,8 +47,8 @@
   cursor: pointer;
   transition: 0.3s;
   white-space: nowrap;
-  width: auto; /* Cambiado de flex:1 a width:auto */
-  min-width: 200px; /* Ancho mínimo para mantener proporción */
+  width: auto;
+  min-width: 200px;
 }
 
 .add-button {
@@ -90,43 +90,119 @@
   box-shadow: 0 0 8px rgba(211, 47, 47, 0.3);
 }
 
-/* Estilos para la tabla en pantallas grandes */
-.alumnos-table-container {
+.table-container {
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   overflow-x: auto;
-  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: white;
+  border: 1px solid #ddd;
 }
 
-.alumnos-table {
+.responsive-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  font-size: 0.85rem;
 }
 
-.alumnos-table th, .alumnos-table td {
-  padding: 10px;
-  text-align: left;
+.responsive-table th, 
+.responsive-table td {
+  padding: 12px 15px;
+  text-align: center;
   border-bottom: 1px solid #ddd;
 }
 
-.alumnos-table th {
-  background-color: #f5f5f5;
+.responsive-table th {
+  background-color: #D32F2F;
+  color: white;
   font-weight: bold;
+  position: sticky;
+  top: 0;
 }
 
 .actions-cell {
   display: flex;
-  gap: 5px;
+  gap: 10px;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .edit-button, .delete-button {
-  padding: 5px 10px;
+  padding: 8px 15px;
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
   cursor: pointer;
-  font-size: 0.8rem;
-  transition: 0.3s;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+}
+
+.edit-button {
+  background-color: #2196F3;
+  color: white;
+  box-shadow: 0 2px 5px rgba(33, 150, 243, 0.3);
+}
+
+.edit-button:hover {
+  background-color: #0b7dda;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  box-shadow: 0 2px 5px rgba(244, 67, 54, 0.3);
+}
+
+.delete-button:hover {
+  background-color: #da190b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+}
+
+/* Estilos para móviles */
+@media (max-width: 768px) {
+  .responsive-table {
+    min-width: 100%;
+  }
+  
+  .responsive-table th {
+    display: none;
+  }
+  
+  .responsive-table td {
+    display: block;
+    text-align: right;
+    padding: 10px 15px;
+    white-space: normal;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .responsive-table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .actions-cell {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 0;
+  }
+  
+  .edit-button, .delete-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.8rem;
+  }
 }
 
 .edit-button {

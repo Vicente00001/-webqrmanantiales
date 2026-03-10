@@ -113,7 +113,8 @@ const Menu = () => {
         worksheet["!cols"] = [
           { width: 15 }, // RUT
           { width: 20 }, // Nombre
-          { width: 20 }, // Apellido
+          { width: 20 }, // Apellido Paterno
+          { width: 20 }, // Apellido Materno
           { width: 10 }, // Curso
           { width: 15 }, // Total Atrasos
           { width: 15 }, // Total Justificados
@@ -139,7 +140,8 @@ const Menu = () => {
             return {
               "RUT": id,
               "Nombre": estudiante.nombre,
-              "Apellido": estudiante.apellido,
+              "Apellido Paterno": estudiante.apellido_paterno || '', // Añadido
+              "Apellido Materno": estudiante.apellido_materno || '', // Añadido
               "Curso": estudiante.curso,
               "Total Atrasos": atrasos.totalAtrasos,
               "Total Justificados": atrasos.totalJustificados,
@@ -162,7 +164,8 @@ const Menu = () => {
         return {
           "RUT": id,
           "Nombre": estudiante.nombre,
-          "Apellido": estudiante.apellido,
+          "Apellido Paterno": estudiante.apellido_paterno || '', // Añadido
+          "Apellido Materno": estudiante.apellido_materno || '', // Añadido
           "Curso": estudiante.curso,
           "Total Atrasos": atrasos.totalAtrasos,
           "Total Justificados": atrasos.totalJustificados,
@@ -202,7 +205,8 @@ const Menu = () => {
           return {
             "RUT": id,
             "Nombre": estudiante.nombre,
-            "Apellido": estudiante.apellido,
+            "Apellido Paterno": estudiante.apellido_paterno || '', // Añadido
+            "Apellido Materno": estudiante.apellido_materno || '', // Añadido
             "Curso": estudiante.curso,
             "Total Atrasos": atrasos.totalAtrasos,
             "Total Justificados": atrasos.totalJustificados,
@@ -262,7 +266,8 @@ const Menu = () => {
         incidenciasWorksheet["!cols"] = [
           { width: 15 }, // RUT
           { width: 20 }, // Nombre
-          { width: 20 }, // Apellido
+          { width: 20 }, // Apellido Paterno
+          { width: 20 }, // Apellido Materno
           { width: 10 }, // Curso
           { width: 15 }, // Total Atrasos
           { width: 15 }, // Total Justificados
@@ -313,7 +318,7 @@ const Menu = () => {
             <button className="menu-button" onClick={() => navigate("/historial-atrasos")}>Historial General de Atrasos</button>
             <button className="menu-button" onClick={() => navigate("/gestion-alumnos")}>Gestión de Alumnos</button>
             <button className="menu-button" onClick={() => navigate("/generar-qr")}>Gestión de Códigos QR</button>
-            <button className="menu-button" onClick={() => navigate("/registrar-usuario")}>Registrar Usuario</button>
+            <button className="menu-button" onClick={() => navigate("/gestion-usuarios")}>Gestion de Usuarios</button>
           </>
         )}
 

@@ -18,7 +18,7 @@ import RegistrarUsuario from "./components/RegistrarUsuario";
 import RegistrarMedida from "./components/RegistrarMedida";
 import GenerarAtrasos from "./components/GenerarAtrasos";
 import HistorialAtrasos from "./components/HistorialAtrasos";
-
+import GestionUsuarios from "./components/GestionUsuarios";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <Routes>
@@ -40,6 +40,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/registrar-medida" element={<RegistrarMedida />} />
       <Route path="/generar-atraso" element={<GenerarAtrasos />} />
       <Route path="/historial-atrasos" element={<HistorialAtrasos />} />
+      <Route path="/gestion-usuarios" element={<GestionUsuarios />} />
     </Routes>
   </BrowserRouter>
 );

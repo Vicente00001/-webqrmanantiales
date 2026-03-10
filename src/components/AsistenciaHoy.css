@@ -354,3 +354,94 @@
 .table-wrapper.extended::-webkit-scrollbar-thumb:hover {
   background: #b71c1c;
 }
+
+
+/* Estilos para los nuevos elementos QR */
+
+.qr-action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.visualizar-button {
+  padding: 10px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.visualizar-button:hover {
+  background-color: #45a049;
+}
+
+.visualizar-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.qr-display-modal {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+.qr-code-container {
+  margin: 20px auto;
+  padding: 15px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.qr-code-container img {
+  width: 100%;
+  max-width: 256px;
+  height: auto;
+}
+
+.qr-info {
+  margin: 15px 0;
+  text-align: left;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.qr-info p {
+  margin: 8px 0;
+  color: #333;
+}
+
+.qr-info strong {
+  color: #222;
+}
+
+.selected-row {
+  background-color: #f0f0f0;
+}
+
+/* Mejoras para móviles */
+@media (max-width: 768px) {
+  .qr-action-buttons {
+    flex-direction: column;
+  }
+  
+  .visualizar-button, .modal-button {
+    width: 100%;
+  }
+  
+  .qr-display-modal {
+    padding: 15px;
+  }
+}

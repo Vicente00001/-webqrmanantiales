@@ -176,3 +176,208 @@
         left: 15px;
     }
 }
+
+
+/* Estilos para mensajes de estado */
+.status-message {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px auto;
+    max-width: 600px;
+    text-align: center;
+    font-weight: bold;
+    color: #D32F2F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .loading-spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 3px solid #D32F2F;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Estilos para los botones de acción */
+  .qr-action-buttons {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .visualizar-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+  }
+  
+  .visualizar-button:hover {
+    background-color: #388E3C;
+  }
+  
+  .visualizar-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  /* Estilos para el modal de visualización de QR */
+  .qr-display-modal {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+  }
+  
+  .qr-code-container {
+    margin: 20px auto;
+    padding: 15px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: inline-block;
+  }
+  
+  .qr-info {
+    margin: 15px 0;
+    text-align: left;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  .qr-info p {
+    margin: 5px 0;
+  }
+  
+  /* Media queries para responsividad */
+  @media (max-width: 768px) {
+    .qr-action-buttons {
+      flex-direction: column;
+    }
+    
+    .qr-button, .visualizar-button {
+      width: 100%;
+    }
+    
+    .qr-display-modal {
+      padding: 15px;
+    }
+    
+    .qr-code-container {
+      padding: 10px;
+    }
+  }
+
+
+.status-message {
+    padding: 12px;
+    margin: 15px auto;
+    max-width: 80%;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .loading-spinner {
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top: 3px solid #3498db;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .qr-action-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    justify-content: center;
+  }
+  
+  .visualizar-button {
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+  }
+  
+  .visualizar-button:hover:not(:disabled) {
+    background-color: #27ae60;
+  }
+  
+  .visualizar-button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+  }
+  
+  .qr-display-modal {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .qr-code-container {
+    margin: 20px auto;
+    padding: 15px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: inline-block;
+  }
+  
+  .qr-info {
+    margin: 20px 0;
+    text-align: left;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+  }
+  
+  .qr-info p {
+    margin: 8px 0;
+    color: #34495e;
+  }
+  
+  .qr-info strong {
+    color: #2c3e50;
+  }

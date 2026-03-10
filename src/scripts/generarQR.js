@@ -18,7 +18,7 @@ export const generarTodosLosQR = async (estudiantesConDatos) => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       
-      // Calculamos altura dinámica basada en las líneas de texto
+      
       const textLines = 3; // Nombre, apellidos y curso
       const totalHeight = qrSize + margin + (textLines * lineHeight) + margin;
       

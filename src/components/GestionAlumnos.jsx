@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { collection, getDocs, updateDoc, deleteDoc, doc } from "firebase/firestore";
-import "./GestionAlumnos.css";
+import "./DiseñoGestion.css";
 import logo from "../assets/LOGOMANANTIALES.png";
 
 const GestionAlumnos = () => {
